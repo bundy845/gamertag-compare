@@ -28,7 +28,8 @@ namespace Site.Controllers
             FeedService fs = new FeedService();
             return fs.GamerExists(tag);
         }
-                
+
+        //        
         public ActionResult Compare(string tag1, string tag2)
         {
             FeedService fs = new FeedService();
