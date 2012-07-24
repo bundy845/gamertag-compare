@@ -11,6 +11,9 @@ namespace Model
         /// 
         /// </summary>
         public string id { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string tid { get; set; }
         public string titleid { get; set; }
         public string name { get; set; }
