@@ -8,7 +8,7 @@ namespace Model
     public class Game
     {
         /// <summary>
-        /// 
+        /// change 1
         /// </summary>
         public string id { get; set; }
         /// <summary>
