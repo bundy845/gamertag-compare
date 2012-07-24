@@ -7,6 +7,7 @@ namespace Model
 {
     public class GamerTagExists
     {
+        ///
         public string info { get; set; }
         public string gamertag { get; set; }
     }
