@@ -15,6 +15,9 @@ namespace Model
         /// change 2
         /// </summary>
         public string tid { get; set; }
+        /// <summary>
+        /// change 3
+        /// </summary>
         public string titleid { get; set; }
         public string name { get; set; }
         public string genre { get; set; }
