@@ -1,10 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{ED48E3C0-47D0-43A3-882C-F0BD1C5E6125}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{23307850-E11D-414E-A9FC-51BFA22A55EA}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A44684DD-0567-432C-8433-9CF08F6F0D9B}"
 	ProjectSection(SolutionItems) = preProject
 		GamerscoreCompare1.vsmdi = GamerscoreCompare1.vsmdi
@@ -12,13 +8,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site", "Compare\Site.csproj", "{7FD0DDF5-25BD-426C-8350-4341F96AD98D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4C01F9C0-8115-4D8A-9E96-F685A27B4762}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{ED48E3C0-47D0-43A3-882C-F0BD1C5E6125}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{23307850-E11D-414E-A9FC-51BFA22A55EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site", "Compare\Site.csproj", "{7FD0DDF5-25BD-426C-8350-4341F96AD98D}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
