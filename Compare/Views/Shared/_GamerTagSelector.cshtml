@@ -8,10 +8,10 @@
         <div id="tagpicker" class="s mytop span16">
 
                 <span class="gamertext">Gamer 1</span>
-                @Html.TextBoxFor(g => g.tag1, new { maxlength = 15, size = 15, @class = "taginput" })
+                @Html.TextBoxFor(g => g.Tag1, new { maxlength = 15, size = 15, @class = "taginput" })
 
                 <span class="gamertext">Gamer 2</span>
-                @Html.TextBoxFor(g => g.tag2, new { maxlength = 15, size = 15, @class = "taginput" })
+                @Html.TextBoxFor(g => g.Tag2, new { maxlength = 15, size = 15, @class = "taginput" })
             
             @Html.Button("Compare", new Dictionary<string, object>() { { "class", "btn" } })
         </div>

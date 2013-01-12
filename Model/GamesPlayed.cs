@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Model
 {
     public class GamesPlayed
     {
-        public GamerInfo info { get; set; }
+        public GamerInfo Info { get; set; }
         public List<Game> Games { get; set; }
 
 

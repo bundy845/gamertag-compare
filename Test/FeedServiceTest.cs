@@ -1,7 +1,5 @@
 ﻿using Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Data;
 
 namespace Test
 {
@@ -11,29 +9,9 @@ namespace Test
     ///This is a test class for FeedServiceTest and is intended
     ///to contain all FeedServiceTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class FeedServiceTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
         #region Additional test attributes
         // 
         //You can use the following additional attributes as you write your tests:
@@ -68,11 +46,11 @@ namespace Test
         /// <summary>
         ///A test for GamesPlayed
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GamesPlayedTest()
         {
-            FeedService target = new FeedService();
-            string gamertag = "Bundy"; 
+            var target = new FeedService();
+            const string gamertag = "Bundy"; 
             target.GamesPlayed(gamertag);
             target.GamesPlayed(gamertag);
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
@@ -81,52 +59,23 @@ namespace Test
         /// <summary>
         ///A test for GamerExists
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GamerExistsTest()
         {
-            FeedService target = new FeedService();
-            string gamertag = "Bundy";
-            bool expected = true;
-            bool actual;
-            actual = target.GamerExists(gamertag);
-            Assert.AreEqual(expected, actual);            
+            var target = new FeedService();
+            const string gamertag = "Bundy";
+            var actual = target.GamerExists(gamertag);
+            Assert.IsTrue(actual);            
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GamerDoesntExistTest()
         {
-            FeedService target = new FeedService();
-            string gamertag = "Bundyaaaaaaa";
-            bool expected = false;
-            bool actual;
-            actual = target.GamerExists(gamertag);
-            Assert.AreEqual(expected, actual);    
+            var target = new FeedService();
+            const string gamertag = "Bundyaaaaaaa";
+            var actual = target.GamerExists(gamertag);
+            Assert.IsFalse(actual);    
         }
 
-        /// <summary>
-        ///A test for FeedService Constructor
-        ///</summary>
-        [TestMethod()]
-        public void FeedServiceConstructorTest()
-        {
-            FeedService target = new FeedService();
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        /// <summary>
-        ///A test for GetFeed
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("Model.dll")]
-        public void GetFeedTest()
-        {
-            FeedService_Accessor target = new FeedService_Accessor(); // TODO: Initialize to an appropriate value
-            string url = string.Empty; // TODO: Initialize to an appropriate value
-            DataSet expected = null; // TODO: Initialize to an appropriate value
-            DataSet actual;
-            actual = target.GetFeed(url);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
     }
 }

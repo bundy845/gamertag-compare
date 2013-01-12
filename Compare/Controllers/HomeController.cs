@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Site.Models;
 using Model;
@@ -23,20 +21,17 @@ namespace Site.Controllers
         }
 
         [HttpPost]
-        ///comment
         public bool ValidateUser(string tag)
         {
-            FeedService fs = new FeedService();
+            var fs = new FeedService();
             return fs.GamerExists(tag);
         }
 
         //        
         public ActionResult Compare(string tag1, string tag2)
         {
-            FeedService fs = new FeedService();
-            Compare c = new Compare();
-            c.Player1.Name = tag1;
-            c.Player2.Name = tag2;
+            var fs = new FeedService();
+            var c = new Compare {Player1 = {Name = tag1}, Player2 = {Name = tag2}};
             c.Player1.Valid = fs.GamerExists(tag1);
             c.Player2.Valid = fs.GamerExists(tag2);
 
@@ -61,13 +56,14 @@ namespace Site.Controllers
 
                 foreach (var genre in genres)
                 {
-                    var genreGames = common.Where(a => a.Player1.genre == genre);
+                    string genre1 = genre;
+                    var genreGames = common.Where(a => a.Player1.genre == genre1).ToList();
                     var total = genreGames.Count();
-                    var wins = genreGames.Where(a => a.Player1.currentgs > a.Player2.currentgs).Count();
-                    var ties = genreGames.Where(a => a.Player1.currentgs == a.Player2.currentgs).Count();
+                    var wins = genreGames.Count(a => a.Player1.currentgs > a.Player2.currentgs);
+                    var ties = genreGames.Count(a => a.Player1.currentgs == a.Player2.currentgs);
                     var loses = total - wins - ties;
-                    c.Genre.Add(new GenreSummary()
-                    {
+                    c.Genre.Add(new GenreSummary
+                        {
                         Genre = genre,
                         Wins = wins,
                         Ties = ties,
@@ -78,8 +74,8 @@ namespace Site.Controllers
                 }
 
                 // can we do in one pass instead of N?
-                c.Genre.Add(new GenreSummary()
-                {
+                c.Genre.Add(new GenreSummary
+                    {
                     Genre = "All",
                     Wins = c.Genre.Sum(a => a.Wins),
                     Ties = c.Genre.Sum(a => a.Ties),
