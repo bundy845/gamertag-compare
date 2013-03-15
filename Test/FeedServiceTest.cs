@@ -51,9 +51,8 @@ namespace Test
         {
             var target = new FeedService();
             const string gamertag = "Bundy"; 
-            target.GamesPlayed(gamertag);
-            target.GamesPlayed(gamertag);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            var gamesPlayed = target.GamesPlayed(gamertag);
+            Assert.IsTrue(gamesPlayed.Games.Count > 0);
         }
 
         /// <summary>
