@@ -17,6 +17,7 @@ namespace Site.Controllers
         [HttpPost]        
         public ActionResult Index(string tag1, string tag2)
         {
+
             return Compare(tag1, tag2);
         }
 
@@ -53,16 +54,20 @@ namespace Site.Controllers
 
 
                 var genres = common.Select(a => a.Player1.genre).Distinct();
-
+                var totalWins = 0;
+                var totalTies = 0;
+                var totalLoses = 0;
+                var totalTag1Score = 0;
+                var totalTag2Score = 0;
                 foreach (var genre in genres)
                 {
-                    string genre1 = genre;
+                    var genre1 = genre;
                     var genreGames = common.Where(a => a.Player1.genre == genre1).ToList();
                     var total = genreGames.Count();
                     var wins = genreGames.Count(a => a.Player1.currentgs > a.Player2.currentgs);
                     var ties = genreGames.Count(a => a.Player1.currentgs == a.Player2.currentgs);
                     var loses = total - wins - ties;
-                    c.Genre.Add(new GenreSummary
+                    var genreSummary = new GenreSummary
                         {
                         Genre = genre,
                         Wins = wins,
@@ -70,21 +75,31 @@ namespace Site.Controllers
                         Loses = loses,
                         Tag1Score = genreGames.Sum(a => a.Player1.currentgs),
                         Tag2Score = genreGames.Sum(a => a.Player2.currentgs)
-                    });
+                    };
+
+                    c.Genre.Add(genreSummary);
+
+                    totalWins += wins;
+                    totalLoses += loses;
+                    totalTies += ties;
+                    totalTag1Score += genreSummary.Tag1Score;
+                    totalTag2Score += genreSummary.Tag2Score;
                 }
 
                 // can we do in one pass instead of N?
                 c.Genre.Add(new GenreSummary
                     {
                     Genre = "All",
-                    Wins = c.Genre.Sum(a => a.Wins),
-                    Ties = c.Genre.Sum(a => a.Ties),
-                    Loses = c.Genre.Sum(a => a.Loses),
-                    Tag1Score = c.Genre.Sum(a => a.Tag1Score),
-                    Tag2Score = c.Genre.Sum(a => a.Tag2Score)
+                    Wins = totalWins,
+                    Ties = totalTies,
+                    Loses = totalLoses,
+                    Tag1Score = totalTag1Score,
+                    Tag2Score = totalTag2Score
+                    
                 });
 
-                c.Genre = c.Genre.OrderByDescending(a => a.Tag1Score).ToList();
+                c.Genre = c.Genre.OrderByDescending(a => a.Tag1Score)
+                                 .ToList();
 
                 c.Games = common.ToList().ConvertAll(a => new GameCompare
                 {
@@ -95,7 +110,8 @@ namespace Site.Controllers
                     Tag1Score = a.Player1.currentgs,
                     Tag2Score = a.Player2.currentgs,
                     Genre = a.Player1.genre,
-                    Difference = a.Player1.currentgs - a.Player2.currentgs
+                    Difference = a.Player1.currentgs - a.Player2.currentgs,
+                    LastPayed =  DateTime.Parse(a.Player1.lastplayed)
                 });
             }
 

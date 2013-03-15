@@ -1,4 +1,5 @@
-﻿@model Site.Models.Compare
+﻿@using System.Linq
+@model Site.Models.Compare
 
 @{Html.RenderPartial("_GamerTagSelector", new Site.Models.Gamers() {Tag1 = Model.Player1.Name, Tag2 = Model.Player2.Name});}
 
@@ -69,11 +70,12 @@
                                 <th>@Model.Player2.Name</th>
                                 <th>Difference</th>
                                 <th>Genre</th>
+                                <th>Last Played</th>
                             </tr>
                         </thead>
                         <tbody>
                     @{
-                        foreach (var game in Model.Games)
+                        foreach (var game in Model.Games.OrderByDescending(a => a.LastPayed))
                         {
                             <tr>
                                 <td><img src="@game.Tile64" width="32" height="32" alt="@game.Name" /></td>
@@ -82,6 +84,7 @@
                                 <td class="right">@game.Tag2Score</td>
                                 <td class="right">@game.Difference</td>
                                 <td>@game.Genre</td>
+                                <td class="right">@game.LastPayed.ToString("d")</td>
                             </tr>
                         }
                 

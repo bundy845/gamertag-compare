@@ -1,4 +1,6 @@
-﻿namespace Site.Models
+﻿using System;
+
+namespace Site.Models
 {
     public class GameCompare
     {
@@ -10,5 +12,6 @@
         public int Tag2Score { get; set; }
         public string Genre { get; set; }
         public int Difference { get; set; }
+        public DateTime LastPayed { get; set; }
     }
 }

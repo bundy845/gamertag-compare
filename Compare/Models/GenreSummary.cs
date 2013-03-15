@@ -1,4 +1,6 @@
-﻿namespace Site.Models
+﻿using System;
+
+namespace Site.Models
 {
     public class GenreSummary
     {
@@ -8,6 +10,7 @@
         public int Wins { get; set; }
         public int Loses { get; set; }
         public int Ties { get; set; }
+        public DateTime MostRecentDate { get; set; }
 
     }
 }

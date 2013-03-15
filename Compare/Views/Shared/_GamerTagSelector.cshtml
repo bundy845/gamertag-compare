@@ -1,8 +1,24 @@
 ﻿@model Site.Models.Gamers
 @using Site.Helpers           
+@using Site.Models
 <div class="span16">
 @{
-    
+
+    if (HttpContext.Current.IsDebuggingEnabled)
+    {
+        if (Model != null)
+        {
+            if (string.IsNullOrWhiteSpace(Model.Tag1))
+            {
+                Model.Tag1 = "Bundy";
+            }
+            if (string.IsNullOrWhiteSpace(Model.Tag2))
+            {
+                Model.Tag2 = "Blazer2";
+            }
+        }
+    }
+        
     using (Html.BeginForm())
     {        
         <div id="tagpicker" class="s mytop span16">
