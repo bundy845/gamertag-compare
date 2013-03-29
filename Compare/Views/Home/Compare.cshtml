@@ -78,7 +78,7 @@
                         foreach (var game in Model.Games.OrderByDescending(a => a.LastPayed))
                         {
                             <tr>
-                                <td><img src="@game.Tile64" width="32" height="32" alt="@game.Name" /></td>
+                                <td><img src="@game.Tile" width="32" height="32" alt="@game.Name" /></td>
                                 <td>@game.Name</td>
                                 <td class="right">@game.Tag1Score</td>
                                 <td class="right">@game.Tag2Score</td>
@@ -117,21 +117,3 @@
     }
  }
   </div>
-
-  <script type="text/javascript">
-
-      $("table#summaryScores").tablesorter();
-
-      $("table#detailGames").tablesorter({
-          headers: {
-              0: {
-                  sorter: false
-              }
-          }
-      });
-
-  </script>
-
-
-
-   

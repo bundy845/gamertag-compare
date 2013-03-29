@@ -42,7 +42,7 @@ namespace Model
             return output.Data;
         }
 
-        private RestResponse<T> Execute<T>(RestRequest request, Func<RestResponse<T>> func) where T : class
+        private RestResponse<T> Execute<T>(IRestRequest request, Func<RestResponse<T>> func) where T : class
         {
             var sb = new StringBuilder();
             sb.Append(_client.BaseUrl);

@@ -35,22 +35,3 @@
 }
 </div>
 <br />
-
- <script type="text/javascript" >
-
-     $(".taginput").focusout(function () {
-
-         var $textBox = $(this);
-         $.post("/Home/ValidateUser", { tag: $textBox.val() }, function (data) {
-             if (data == 'False') {
-                 $textBox.addClass("invalidtag");
-
-             }
-             else {
-                 $textBox.removeClass("invalidtag");
-             }
-         })
-     });
-
-    
- </script>
