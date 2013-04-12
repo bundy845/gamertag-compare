@@ -48,10 +48,25 @@ namespace Site.Controllers
                 c.Player1.TotalScore = tag1Games.Games.Sum(a => a.currentgs);
                 c.Player2.TotalScore = tag2Games.Games.Sum(a => a.currentgs);
 
-                var common = tag1Games.Games.Join(tag2Games.Games, a => a.id, b => b.id, (a, b) => new { Player1 = a, Player2 = b })
+                var common = tag1Games.Games.Join(tag2Games.Games, a => a.id, b => b.id, (a, b) => new CommonGames { Player1 = a, Player2 = b })
                                             .Where(a => a.Player1.currentgs > 0 && a.Player2.currentgs > 0)
                                             .OrderByDescending(a => Convert.ToDateTime(a.Player1.lastplayed));
 
+
+                var twoYear = common.Where(a => Convert.ToDateTime(a.Player1.lastplayed) > DateTime.Now.AddYears(-2));
+                c.TwoYear = CompareSummary.Map(twoYear, "Two Year");
+                c.TwoYearGames = twoYear.ToList().ConvertAll(a => new GameCompare
+                {
+                    Name = a.Player1.name,
+                    Id = a.Player1.id,
+                    Tile = a.Player1.tile,
+                    Tile64 = a.Player1.tile64,
+                    Tag1Score = a.Player1.currentgs,
+                    Tag2Score = a.Player2.currentgs,
+                    Genre = a.Player1.genre,
+                    Difference = a.Player1.currentgs - a.Player2.currentgs,
+                    LastPayed = DateTime.Parse(a.Player1.lastplayed)
+                });
 
                 var genres = common.Select(a => a.Player1.genre).Distinct();
                 var totalWins = 0;
@@ -59,37 +74,20 @@ namespace Site.Controllers
                 var totalLoses = 0;
                 var totalTag1Score = 0;
                 var totalTag2Score = 0;
-                foreach (var genre in genres)
+                foreach (var genreSummary in from genre1 in genres let genreGames = common.Where(a => a.Player1.genre == genre1).ToList() select CompareSummary.Map(genreGames, genre1))
                 {
-                    var genre1 = genre;
-                    var genreGames = common.Where(a => a.Player1.genre == genre1).ToList();
-                    var total = genreGames.Count();
-                    var wins = genreGames.Count(a => a.Player1.currentgs > a.Player2.currentgs);
-                    var ties = genreGames.Count(a => a.Player1.currentgs == a.Player2.currentgs);
-                    var loses = total - wins - ties;
-                    var genreSummary = new GenreSummary
-                        {
-                        Genre = genre,
-                        Wins = wins,
-                        Ties = ties,
-                        Loses = loses,
-                        Tag1Score = genreGames.Sum(a => a.Player1.currentgs),
-                        Tag2Score = genreGames.Sum(a => a.Player2.currentgs)
-                    };
-
                     c.Genre.Add(genreSummary);
 
-                    totalWins += wins;
-                    totalLoses += loses;
-                    totalTies += ties;
+                    totalWins += genreSummary.Wins;
+                    totalLoses += genreSummary.Loses;
+                    totalTies += genreSummary.Ties;
                     totalTag1Score += genreSummary.Tag1Score;
                     totalTag2Score += genreSummary.Tag2Score;
                 }
-
-                // can we do in one pass instead of N?
-                c.Genre.Add(new GenreSummary
+                
+                c.Genre.Add(new CompareSummary
                     {
-                    Genre = "All",
+                    Label = "All",
                     Wins = totalWins,
                     Ties = totalTies,
                     Loses = totalLoses,

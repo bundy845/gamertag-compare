@@ -117,7 +117,7 @@
     </Compile>
     <Compile Include="Helpers\Extentions.cs" />
     <Compile Include="Models\Compare.cs" />
-    <Compile Include="Models\GenreSummary.cs" />
+    <Compile Include="Models\CompareSummary.cs" />
     <Compile Include="Models\GameCompare.cs" />
     <Compile Include="Models\Gamers.cs" />
     <Compile Include="Models\GamerTag.cs" />

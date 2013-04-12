@@ -1,7 +1,45 @@
 ﻿@using System.Linq
+@using Site.Models
 @model Site.Models.Compare
 
-@{Html.RenderPartial("_GamerTagSelector", new Site.Models.Gamers() {Tag1 = Model.Player1.Name, Tag2 = Model.Player2.Name});}
+@{Html.RenderPartial("_GamerTagSelector", new Site.Models.Gamers() { Tag1 = Model.Player1.Name, Tag2 = Model.Player2.Name });}
+
+
+@helper GameTable(string id, IEnumerable<GameCompare> games)
+{
+    <div class="span12">
+    <table id="@id" class="zebra-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Game</th>
+                <th>@Model.Player1.Name</th>
+                <th>@Model.Player2.Name</th>
+                <th>Difference</th>
+                <th>Genre</th>
+                <th>Last Played</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var game in games.OrderByDescending(a => a.LastPayed))
+                {
+                    <tr class="@game.Genre.Replace(" ", "")">
+                        <td><img src="@game.Tile" width="32" height="32" alt="@game.Name" /></td>
+                        <td>@game.Name</td>
+                        <td class="right">@game.Tag1Score</td>
+                        <td class="right">@game.Tag2Score</td>
+                        <td class="right">@game.Difference</td>
+                        <td>@game.Genre</td>
+                        <td class="right">@game.LastPayed.ToString("d")</td>
+                    </tr>
+                }
+                
+            }
+        </tbody>
+    </table>
+</div>
+}
 
 <div class="row">   
     @{
@@ -10,6 +48,7 @@
             <ul class="tabs" data-tabs="tabs">
                 <li class="active" ><a href="#genre">Genre Summary</a></li>
                 <li><a href="#games">Games</a></li>
+                <li><a href="#twoyear">Last 2 Years</a></li>
             </ul>
             <div class ="pill-content">
                 <div class="active" id="genre">
@@ -28,10 +67,10 @@
                             </thead>
                             <tbody>
                                 @{
-                                    foreach (var genre in Model.Genre)
-                                    {
+            foreach (var genre in Model.Genre)
+            {
                                         <tr>
-                                            <td>@genre.Genre</td>
+                                            <td>@genre.Label</td>
                                             <td class="right">@genre.Tag1Score</td>
                                             <td class="right">@genre.Tag2Score</td>
                                             <td class="right">@{@Html.Raw((genre.Tag1Score - genre.Tag2Score).ToString())}</td>
@@ -40,7 +79,7 @@
                                             <td class="right">@genre.Ties</td>
                                         </tr>
               
-                                    }
+            }
                                 }
                             </tbody>
                         </table>
@@ -52,47 +91,46 @@
                         <div class="span4" id="genres">
                             <span>Click a Genre to filter the games list</span>
                             <ul>
-                                @foreach (var genre in Model.Genre.OrderBy(a => a.GenreSort).Select(a => a.Genre).Distinct())
+                                @foreach (var genre in Model.Genre.OrderBy(a => a.LabelSort).Select(a => a.Label).Distinct())
                                 {
                                     <li class="@(genre == "All" ? "selected" : "")">@Html.Raw(genre)</li>
                                 }
                        
                             </ul>
                         </div>
-
-                        <div class="span12">
-                            <table id="detailGames" class="zebra-striped">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Game</th>
-                                        <th>@Model.Player1.Name</th>
-                                        <th>@Model.Player2.Name</th>
-                                        <th>Difference</th>
-                                        <th>Genre</th>
-                                        <th>Last Played</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        foreach (var game in Model.Games.OrderByDescending(a => a.LastPayed))
-                                        {
-                                            <tr class="@game.Genre.Replace(" ","")">
-                                                <td><img src="@game.Tile" width="32" height="32" alt="@game.Name" /></td>
-                                                <td>@game.Name</td>
-                                                <td class="right">@game.Tag1Score</td>
-                                                <td class="right">@game.Tag2Score</td>
-                                                <td class="right">@game.Difference</td>
-                                                <td>@game.Genre</td>
-                                                <td class="right">@game.LastPayed.ToString("d")</td>
-                                            </tr>
-                                        }
-                
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                        @GameTable( "detailGames", Model.Games)
                     </div>
+                </div>
+                
+                <div id="twoyear">
+                    <div class="span9">
+                        <table id="twoyearscores" class="zebra-striped">
+                            <thead>
+                                <tr>
+                                    
+                                    <th class="right">@Model.Player1.Name</th>
+                                    <th class="right">@Model.Player2.Name</th>
+                                    <th class="right">Difference</th>
+                                    <th class="right">W</th>
+                                    <th class="right">L</th>
+                                    <th class="right">T</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    <tr>
+                                        <td class="right">@Model.TwoYear.Tag1Score</td>
+                                        <td class="right">@Model.TwoYear.Tag2Score</td>
+                                        <td class="right">@{@Html.Raw((Model.TwoYear.Tag1Score - Model.TwoYear.Tag2Score).ToString())}</td>
+                                        <td class="right">@Model.TwoYear.Wins</td>
+                                        <td class="right">@Model.TwoYear.Loses</td>
+                                        <td class="right">@Model.TwoYear.Ties</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    @GameTable("twoYearGames", Model.TwoYearGames)
                 </div>
             </div>
         }
@@ -100,16 +138,16 @@
         {          
             <span class="span16">
                 @{
-                    string x = string.Empty;
-                    if (!Model.Player1.Valid)
-                    {
-                        x = Model.Player1.Name + " is not a valid gaemrtag.";
-                    }
+            string x = string.Empty;
+            if (!Model.Player1.Valid)
+            {
+                x = Model.Player1.Name + " is not a valid gaemrtag.";
+            }
 
-                    if (!Model.Player2.Valid)
-                    {
-                        x += "<br>" + Model.Player2.Name + " is not a valid gaemrtag.";
-                    }
+            if (!Model.Player2.Valid)
+            {
+                x += "<br>" + Model.Player2.Name + " is not a valid gaemrtag.";
+            }
                 }
             
         
