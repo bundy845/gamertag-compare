@@ -52,9 +52,9 @@
                         <div class="span4" id="genres">
                             <span>Click a Genre to filter the games list</span>
                             <ul>
-                                @foreach (string genre in Model.Genre.Select(a => a.Genre).Distinct())
+                                @foreach (var genre in Model.Genre.Select(a => a.Genre).Distinct())
                                 {
-                                    <li>@Html.Raw(genre)</li>
+                                    <li class="@(genre == "All" ? "selected" : "")">@Html.Raw(genre)</li>
                                 }
                        
                             </ul>
@@ -120,12 +120,13 @@
 
 <script type="text/javascript">
     $("#genres li").on('click', function (e) {
+        $("#genres li").removeClass("selected");
         var genre = this.innerHTML.replace(" ", "");
-        alert(genre);
-        if (genre == "All") {
-            $("#detailGames tr").show();
-        } else {
+        
+        $("#detailGames tr").show();
+        if (genre != "All") {
             $("#detailGames tbody tr").not($("."+genre)).hide();
         }
+        $(this).addClass("selected");
     });
 </script>

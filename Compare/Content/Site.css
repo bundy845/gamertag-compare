@@ -79,6 +79,10 @@ textarea
     width:130px;
 }
 
+.selected {
+    color:#0069d6;
+}
+
 .mytop
 {
     padding-top:5px;
