@@ -23,4 +23,11 @@ $(function () {
             }
         }
     });
+    $("table#twoYearGames").tablesorter({
+        headers: {
+            0: {
+                sorter: false
+            }
+        }
+    });
 });
