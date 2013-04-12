@@ -52,7 +52,7 @@
                         <div class="span4" id="genres">
                             <span>Click a Genre to filter the games list</span>
                             <ul>
-                                @foreach (var genre in Model.Genre.Select(a => a.Genre).Distinct())
+                                @foreach (var genre in Model.Genre.OrderBy(a => a.GenreSort).Select(a => a.Genre).Distinct())
                                 {
                                     <li class="@(genre == "All" ? "selected" : "")">@Html.Raw(genre)</li>
                                 }

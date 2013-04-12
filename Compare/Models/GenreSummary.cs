@@ -11,6 +11,6 @@ namespace Site.Models
         public int Loses { get; set; }
         public int Ties { get; set; }
         public DateTime MostRecentDate { get; set; }
-
+        public string GenreSort { get { return Genre == "All" ? "aaaaaaaaaaaaaa" : Genre; } }
     }
 }
