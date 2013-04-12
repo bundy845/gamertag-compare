@@ -52,8 +52,9 @@ namespace Site.Controllers
                                             .Where(a => a.Player1.currentgs > 0 && a.Player2.currentgs > 0)
                                             .OrderByDescending(a => Convert.ToDateTime(a.Player1.lastplayed));
 
-
-                var twoYear = common.Where(a => Convert.ToDateTime(a.Player1.lastplayed) > DateTime.Now.AddYears(-2));
+                var twoyearsago = DateTime.Now.AddYears(-2);
+                var twoYear = common.Where(a => Convert.ToDateTime(a.Player1.lastplayed) >= twoyearsago  &&
+                                                Convert.ToDateTime(a.Player2.lastplayed) >= twoyearsago);
                 c.TwoYear = CompareSummary.Map(twoYear, "Two Year");
                 c.TwoYearGames = twoYear.ToList().ConvertAll(a => new GameCompare
                 {
