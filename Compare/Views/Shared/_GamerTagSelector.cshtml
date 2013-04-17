@@ -1,6 +1,5 @@
 ﻿@model Site.Models.Gamers
-@using Site.Helpers           
-@using Site.Models
+@using Site.Helpers
 <div class="span16">
 @{
 
@@ -19,19 +18,26 @@
         }
     }
         
+    <div id="login" class="right span16">
+        @{
+            Html.RenderPartial("_Login");
+        }
+    </div>
     using (Html.BeginForm())
-    {        
+    {
         <div id="tagpicker" class="s mytop span16">
 
-                <span class="gamertext">Gamer 1</span>
-                @Html.TextBoxFor(g => g.Tag1, new { maxlength = 15, size = 15, @class = "taginput" })
+            <span class="gamertext">Gamer 1</span>
+            @Html.TextBoxFor(g => g.Tag1, new { maxlength = 15, size = 15, @class = "taginput" })
 
-                <span class="gamertext">Gamer 2</span>
-                @Html.TextBoxFor(g => g.Tag2, new { maxlength = 15, size = 15, @class = "taginput" })
+            <span class="gamertext">Gamer 2</span>
+            @Html.TextBoxFor(g => g.Tag2, new { maxlength = 15, size = 15, @class = "taginput" })
             
             @Html.Button("Compare", new Dictionary<string, object>() { { "class", "btn" } })
         </div>
+        
     }    
+    
 }
 </div>
 <br />

@@ -2,7 +2,9 @@
 @using Site.Models
 @model Site.Models.Compare
 
-@{Html.RenderPartial("_GamerTagSelector", new Site.Models.Gamers() { Tag1 = Model.Player1.Name, Tag2 = Model.Player2.Name });}
+@{
+    Html.RenderPartial("_GamerTagSelector", new Site.Models.Gamers() { Tag1 = Model.Player1.Name, Tag2 = Model.Player2.Name });
+}
 
 
 @helper GameTable(string id, IEnumerable<GameCompare> games)
