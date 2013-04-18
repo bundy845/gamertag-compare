@@ -161,8 +161,8 @@
 <script type="text/javascript">
     $("#genres li").on('click', function (e) {
         $("#genres li").removeClass("selected");
-        var genre = this.innerHTML.replace(" ", "");
-        
+        var genre = this.innerHTML.replace(new RegExp(" ", "g"), "");
+
         $("#detailGames tr").show();
         if (genre != "All") {
             $("#detailGames tbody tr").not($("."+genre)).hide();
