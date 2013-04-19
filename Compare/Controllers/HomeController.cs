@@ -31,6 +31,7 @@ namespace Site.Controllers
         //        
         public ActionResult Compare(string tag1, string tag2)
         {
+            ViewBag.ReturnUrl = string.Format("~/home/compare/{0}/{1}", tag1, tag2);
             var fs = new FeedService();
             var c = new Compare {Player1 = {Name = tag1}, Player2 = {Name = tag2}};
             c.Player1.Valid = fs.GamerExists(tag1);
