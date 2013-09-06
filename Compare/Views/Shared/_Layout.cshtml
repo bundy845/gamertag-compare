@@ -3,13 +3,12 @@
 <html>
 <head>
     <title>@ViewBag.Title</title>
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css" type="text/css" />
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css", "~/Content/bootstrap/base")
 </head>
 
 <body>
     <div class ="container">
-        @Scripts.Render("~/bundles/js")
+        @Scripts.Render("~/bundles/js", "~/bundles/bootstrap")
         @RenderBody()
     </div>
 </body>

@@ -7,55 +7,55 @@
 }
 
 
-@helper GameTable(string id, IEnumerable<GameCompare> games)
+@helper GameTable(string id, IEnumerable<GameCompare> games, int spanSize=12)
 {
-    <div class="span12">
-    <table id="@id" class="zebra-striped">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Game</th>
-                <th>@Model.Player1.Name</th>
-                <th>@Model.Player2.Name</th>
-                <th>Difference</th>
-                <th>Genre</th>
-                <th>Last Played</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                foreach (var game in games.OrderByDescending(a => a.LastPayed))
-                {
-                    <tr class="@game.Genre.Replace(" ", "")">
-                        <td><img src="@game.Tile" width="32" height="32" alt="@game.Name" /></td>
-                        <td>@game.Name</td>
-                        <td class="right">@game.Tag1Score</td>
-                        <td class="right">@game.Tag2Score</td>
-                        <td class="right">@game.Difference</td>
-                        <td>@game.Genre</td>
-                        <td class="right">@game.LastPayed.ToString("d")</td>
-                    </tr>
+    var className = "col-md-" + spanSize;
+    <div class="@className">
+        <table id="@id" class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Game</th>
+                    <th>@Model.Player1.Name</th>
+                    <th>@Model.Player2.Name</th>
+                    <th>Difference</th>
+                    <th>Genre</th>
+                    <th>Last Played</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var game in games.OrderByDescending(a => a.LastPayed))
+                    {
+                        <tr class="@game.Genre.Replace(" ", "")">
+                            <td><img src="@game.Tile" width="32" height="32" alt="@game.Name" /></td>
+                            <td>@game.Name</td>
+                            <td class="right">@game.Tag1Score</td>
+                            <td class="right">@game.Tag2Score</td>
+                            <td class="right">@game.Difference</td>
+                            <td>@game.Genre</td>
+                            <td class="right">@game.LastPayed.ToString("d")</td>
+                        </tr>
+                    }
                 }
-                
-            }
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 }
 
 <div class="row">   
     @{
         if (Model.Player1.Valid && Model.Player2.Valid)
         {
-            <ul class="tabs" data-tabs="tabs">
+            <ul class="nav nav-tabs" data-tabs="tabs" id="maintab">
                 <li class="active" ><a href="#genre">Genre Summary</a></li>
                 <li><a href="#games">Games</a></li>
                 <li><a href="#twoyear">Last 2 Years</a></li>
             </ul>
-            <div class ="pill-content">
-                <div class="active" id="genre">
-                    <div class="span9">
-                        <table id="summaryScores" class="zebra-striped">
+            <div class ="tab-content">
+                <div class="tab-pane active" id="genre">
+                    <div class="col-md-12">
+                        <table id="summaryScores" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>Genre</th>
@@ -69,8 +69,8 @@
                             </thead>
                             <tbody>
                                 @{
-            foreach (var genre in Model.Genre)
-            {
+                                foreach (var genre in Model.Genre)
+                                {
                                         <tr>
                                             <td>@genre.Label</td>
                                             <td class="right">@genre.Tag1Score</td>
@@ -81,16 +81,16 @@
                                             <td class="right">@genre.Ties</td>
                                         </tr>
               
-            }
+                                }
                                 }
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div id="games">
+                <div class="tab-pane" id="games">
                     <div class="row">
-                        <div class="span4" id="genres">
+                        <div class="col-md-4" id="genres">
                             <span>Click a Genre to filter the games list</span>
                             <ul>
                                 @foreach (var genre in Model.Genre.OrderBy(a => a.LabelSort).Select(a => a.Label).Distinct())
@@ -100,13 +100,13 @@
                        
                             </ul>
                         </div>
-                        @GameTable( "detailGames", Model.Games)
+                        @GameTable( "detailGames", Model.Games,8)
                     </div>
                 </div>
                 
-                <div id="twoyear">
-                    <div class="span9">
-                        <table id="twoyearscores" class="zebra-striped">
+                <div class="tab-pane" id="twoyear">
+                    <div class="col-md-12">
+                        <table id="twoyearscores" class="table table-striped">
                             <thead>
                                 <tr>
                                     
@@ -138,7 +138,7 @@
         }
         else
         {          
-            <span class="span16">
+            <span class="col-md-12">
                 @{
             string x = string.Empty;
             if (!Model.Player1.Valid)
@@ -159,6 +159,12 @@
 </div>
 
 <script type="text/javascript">
+    
+    $('#maintab a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+
     $("#genres li").on('click', function (e) {
         $("#genres li").removeClass("selected");
         var genre = this.innerHTML.replace(new RegExp(" ", "g"), "");

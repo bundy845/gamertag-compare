@@ -1,6 +1,6 @@
 ﻿@model Site.Models.Gamers
 @using Site.Helpers
-<div class="span16">
+<div class="col-md-12">
 @{
 
     if (HttpContext.Current.IsDebuggingEnabled)
@@ -18,14 +18,14 @@
         }
     }
         
-    <div id="login" class="right span16">
+    <div id="login" class="right col-md-12">
         @{
             Html.RenderPartial("_Login");
         }
     </div>
     using (Html.BeginForm())
     {
-        <div id="tagpicker" class="s mytop span16">
+        <div id="tagpicker" class="s mytop span12">
 
             <span class="gamertext">Gamer 1</span>
             @Html.TextBoxFor(g => g.Tag1, new { maxlength = 15, size = 15, @class = "taginput" })
@@ -33,7 +33,7 @@
             <span class="gamertext">Gamer 2</span>
             @Html.TextBoxFor(g => g.Tag2, new { maxlength = 15, size = 15, @class = "taginput" })
             
-            @Html.Button("Compare", new Dictionary<string, object>() { { "class", "btn" } })
+            @Html.Button("Compare", new Dictionary<string, object>() { { "class", "btn btn-primary" } })
         </div>
         
     }    

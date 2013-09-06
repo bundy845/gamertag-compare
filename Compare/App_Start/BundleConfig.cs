@@ -9,7 +9,6 @@ namespace Site.App_Start
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery.tablesorter.js",
-                "~/Scripts/bootstrap-tabs.js",
                 "~/Scripts/site.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
